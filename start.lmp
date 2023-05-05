@@ -1,0 +1,18 @@
+echo both
+
+include in.partitions
+log log.lammps.${p_id} append
+
+include in.temp
+include in.pressure
+include in.seed
+units metal
+atom_style full
+box tilt large
+include in.box
+include in.setup
+
+minimize 1.0e-2 1.0e-3 100 1000
+
+reset_timestep 0
+
