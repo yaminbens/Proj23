@@ -1,2 +1,2 @@
-    dump         myDump all atom ${out_freq2} dump_${temperature}.lammpstrj
+    dump         myDump all atom ${out_freq2} dump/metad/dump${temperature}.lammpstrj
     dump_modify  myDump append yes
