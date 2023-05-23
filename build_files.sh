@@ -1,9 +1,8 @@
-while getopts d:t:f: flag
+while getopts d:t: flag
 do
     case "${flag}" in
         d) directory=${OPTARG};;
         t) tmp=${OPTARG};;
-        f) fullname=${OPTARG};;
     esac
 done
 
@@ -136,7 +135,7 @@ include in.seed
 units metal
 atom_style full
 box tilt large
-read_restart ${directory}/restart/restart.\${temperature}.50000
+read_restart ${directory}/restart/restart.\${temperature}.\${r}
 include in.setup
 
 # NVT
@@ -165,6 +164,7 @@ fix             2 all nph &
 fix             3 all temp/csvr \${temperature} \${temperature} \${tempDamp} \${seed}
 fix             4 all momentum 10000 linear 1 1 1 angular
 
-run           10000000 # 20 ns
+variable 	steps equal \${ns}*500000 #1 ns
+run           	\${steps} 
 
 EOF
