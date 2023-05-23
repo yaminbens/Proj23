@@ -5,4 +5,4 @@
     timestep        0.002 # According to Frenkel and Smit is 0.001
     thermo          ${out_freq}
     thermo_style    custom step temp pe ke press density vol enthalpy atoms lx ly lz xy xz yz pxx pyy pzz pxy pxz pyz
-    restart         ${out_freq2} restart/metad/restart.${temperature}
+    restart         ${out_freq2} metadNa/restart/restart.${temperature}
