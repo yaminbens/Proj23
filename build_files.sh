@@ -7,13 +7,15 @@ do
 done
 
 mkdir ${directory}
-mkdir ${directory}/plumed
-mkdir ${directory}/log
-mkdir ${directory}/dump
-mkdir ${directory}/restart
-mkdir ${directory}/colvar
-mkdir ${directory}/data
-cp baserun/restart.${tmp}.50000 ${directory}/restart
+cd    ${directory}
+mkdir plumed
+mkdir log
+mkdir dump
+mkdir restart
+mkdir colvar
+mkdir data
+touch HILLS
+cp ../baserun/restart.${tmp}.50000 restart
 
 ##########################################################################
 
@@ -49,7 +51,7 @@ EOF
 cat > "in.na" << EOF
     ### Argon Potential Parameters ###
     pair_style  eam/fs
-    pair_coeff  * * Na_MendelevM_2014.eam.fs Na
+    pair_coeff  * * ../Na_MendelevM_2014.eam.fs Na
 EOF
 
 
@@ -61,11 +63,11 @@ cat > "in.setup" << EOF
     timestep        0.002 # According to Frenkel and Smit is 0.001
     thermo          \${out_freq}
     thermo_style    custom step temp pe ke press density vol enthalpy atoms lx ly lz xy xz yz pxx pyy pzz pxy pxz pyz
-    restart         \${out_freq2} ${directory}/restart/restart.\${temperature}
+    restart         \${out_freq2} restart/restart.\${temperature}
 EOF
 
 cat > "in.dump" << EOF
-    dump         myDump all atom \${out_freq2} ${directory}/dump/dump\${temperature}.lammpstrj
+    dump         myDump all atom \${out_freq2} dump/dump\${temperature}.lammpstrj
     dump_modify  myDump append yes
 EOF
 
@@ -74,7 +76,7 @@ EOF
 cat > "plumed.dat" << EOF
 RESTART
 
-LOAD FILE=../PRL-2017-PairEntropy/PairEntropy.cpp
+LOAD FILE=../../PRL-2017-PairEntropy/PairEntropy.cpp
 
 PAIRENTROPY ...
  LABEL=s2
@@ -109,7 +111,7 @@ METAD ...
  SIGMA=0.2,0.1
  HEIGHT=2.5
  BIASFACTOR=30
- TEMP=350.0
+ TEMP=${tmp}
  PACE=500
  GRID_MIN=-110,-8
  GRID_MAX=-90,-1
@@ -117,7 +119,7 @@ METAD ...
  CALC_RCT
 ... METAD
 
-PRINT STRIDE=500  ARG=* FILE=${directory}/colvar/COLVAR
+PRINT STRIDE=500  ARG=* FILE=colvar/COLVAR
 
 EOF
  
@@ -127,7 +129,7 @@ cat > "restart.lmp" << EOF
 echo both
 
 include in.partitions
-log ${directory}/log/log.lammps append
+log log/log.lammps append
 
 include in.temp
 include in.pressure
@@ -135,7 +137,7 @@ include in.seed
 units metal
 atom_style full
 box tilt large
-read_restart ${directory}/restart/restart.\${temperature}.\${r}
+read_restart restart/restart.\${temperature}.\${r}
 include in.setup
 
 # NVT
@@ -146,13 +148,13 @@ variable tempera equal temp
 variable dense equal density
 variable entha equal enthalpy 
 
-fix myat1 all ave/time 100 5 1000 v_kenergy v_penergy v_pres v_tempera v_dense v_entha file ${directory}/data/energy\${temperature}.dat
+fix myat1 all ave/time 100 5 1000 v_kenergy v_penergy v_pres v_tempera v_dense v_entha file data/energy\${temperature}.dat
 
 timer           timeout 23:50:00 every 5000
 
 include         in.dump
 
-fix             1 all plumed plumedfile plumed.dat outfile ${directory}/plumed/plumed\${temperature}.out
+fix             1 all plumed plumedfile plumed.dat outfile plumed/plumed\${temperature}.out
 fix             2 all nph &
                 x \${pressure} \${pressure} \${pressureDamp} &
                 y \${pressure} \${pressure} \${pressureDamp} &

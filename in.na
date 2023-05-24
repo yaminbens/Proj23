@@ -1,3 +1,0 @@
-    ### Argon Potential Parameters ###
-    pair_style  eam/fs
-    pair_coeff  * * Na_MendelevM_2014.eam.fs Na
