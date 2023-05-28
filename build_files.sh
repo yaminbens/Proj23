@@ -14,6 +14,7 @@ mkdir dump
 mkdir restart
 mkdir colvar
 mkdir data
+mkdir fes
 touch HILLS
 cp ../baserun/restart.${tmp}.50000 restart
 
