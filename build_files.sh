@@ -16,7 +16,7 @@ mkdir colvar
 mkdir data
 mkdir fes
 touch HILLS
-cp ../baserun/restart.${tmp}.50000 restart
+cp ../baserun256/restart.${tmp}.50000 restart
 
 ##########################################################################
 

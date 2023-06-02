@@ -5,8 +5,8 @@ do
     esac
 done
 
-mkdir baserun
-cd    baserun
+mkdir baserun256
+cd    baserun256
 
 
 
@@ -32,7 +32,7 @@ EOF
 
 cat > "in.box" << EOF
     variable        side equal 22.0
-    variable        numAtoms equal 250
+    variable        numAtoms equal 256
     variable        mass equal 22.98977
     region          box block 0 \${side} 0 \${side} 0 \${side}
     create_box      1 box
