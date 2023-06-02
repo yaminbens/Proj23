@@ -40,7 +40,7 @@ EOF
 
 cat > "in.box" << EOF
     variable        side equal 22.0
-    variable        numAtoms equal 250
+    variable        numAtoms equal 256
     variable        mass equal 22.98977
     region          box block 0 \${side} 0 \${side} 0 \${side}
     create_box      1 box
@@ -81,7 +81,7 @@ LOAD FILE=../../PRL-2017-PairEntropy/PairEntropy.cpp
 
 PAIRENTROPY ...
  LABEL=s2
- ATOMS=1-250
+ ATOMS=1-256
  MAXR=0.7
  SIGMA=0.0125
 ... PAIRENTROPY
@@ -114,7 +114,7 @@ METAD ...
  BIASFACTOR=30
  TEMP=${tmp}
  PACE=500
- GRID_MIN=-110,-8
+ GRID_MIN=-110,-10
  GRID_MAX=-90,-1
  GRID_BIN=500,500
  CALC_RCT
@@ -151,7 +151,7 @@ variable entha equal enthalpy
 
 fix myat1 all ave/time 100 5 1000 v_kenergy v_penergy v_pres v_tempera v_dense v_entha file data/energy\${temperature}.dat
 
-timer           timeout 23:50:00 every 5000
+#timer           timeout 23:50:00 every 5000
 
 include         in.dump
 
