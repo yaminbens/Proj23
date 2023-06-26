@@ -1,0 +1,20 @@
+make lib-plumed args="-p /home/user/.local -m runtime"
+make yes-PLUMED
+make lib-colvars args="-m mpi"  
+make yes-colvars
+make yes-MANYBODY
+make yes-MOLECULE
+make yes-EXTRA-COMPUTE
+make yes-EXTRA-DUMP
+make yes-EXTRA-FIX
+make yes-EXTRA-PAIR
+make yes-DIPOLE
+make yes-OPENMP
+make yes-PLUGIN
+make lib-gpu args="-b"  
+make yes-gpu
+
+
+///////////
+https://sites.google.com/site/rangsiman1993/comp-chem/program-install/install-lammps-pk-gpu
+LIB = 		-L/usr/local/cuda/lib64 -lcudart

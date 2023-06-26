@@ -1,8 +1,9 @@
-while getopts d:t: flag
+while getopts d:t:s flag
 do
     case "${flag}" in
         d) directory=${OPTARG};;
         t) tmp=${OPTARG};;
+        s) seed=${OPTARG};;
     esac
 done
 
@@ -16,7 +17,8 @@ mkdir colvar
 mkdir data
 mkdir fes
 touch HILLS
-cp ../baserun256/restart.${tmp}.50000 restart
+cp ../baserun250/restart.${tmp}.50000 restart
+cp ../baserun250/log.lammps log
 
 ##########################################################################
 
@@ -35,7 +37,7 @@ cat > "in.pressure" << EOF
 EOF
 
 cat > "in.seed" << EOF
-    variable seed world 74581 # 93734 12832 21934 57383 49172
+    variable seed world ${seed} #74581 # 93734 12832 21934 57383 49172
 EOF
 
 cat > "in.box" << EOF
@@ -68,7 +70,7 @@ cat > "in.setup" << EOF
 EOF
 
 cat > "in.dump" << EOF
-    dump         myDump all atom \${out_freq2} dump/dump\${temperature}.lammpstrj
+    dump         myDump all atom \${out_freq2} dump/dump\${temperature}.lammpstrj id type x y z
     dump_modify  myDump append yes
 EOF
 
