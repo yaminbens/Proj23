@@ -1,4 +1,4 @@
-while getopts d:t:s flag
+while getopts d:t:s: flag
 do
     case "${flag}" in
         d) directory=${OPTARG};;
@@ -70,7 +70,7 @@ cat > "in.setup" << EOF
 EOF
 
 cat > "in.dump" << EOF
-    dump         myDump all atom \${out_freq2} dump/dump\${temperature}.lammpstrj id type x y z
+    dump         myDump all custom \${out_freq2} dump/dump\${temperature}.lammpstrj id type x y z
     dump_modify  myDump append yes
 EOF
 
@@ -83,7 +83,7 @@ LOAD FILE=../../PRL-2017-PairEntropy/PairEntropy.cpp
 
 PAIRENTROPY ...
  LABEL=s2
- ATOMS=1-256
+ ATOMS=1-250
  MAXR=0.7
  SIGMA=0.0125
 ... PAIRENTROPY
